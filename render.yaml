@@ -9,7 +9,8 @@ services:
     region: oregon
     plan: free
 
-    buildCommand: pip install -r requirements.txt
+    # Use build script to set Cargo env vars during build
+    buildCommand: chmod +x render-build.sh && ./render-build.sh
     startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
 
     envVars:
@@ -17,10 +18,5 @@ services:
         sync: false
       - key: LLM_PROVIDER
         value: groq
-      # Fix for Rust-based packages (tiktoken, tokenizers, etc.)
-      - key: CARGO_HOME
-        value: /tmp/cargo
-      - key: CARGO_NET_GIT_FETCH_WITH_CLI
-        value: "true"
 
     healthCheckPath: /health
