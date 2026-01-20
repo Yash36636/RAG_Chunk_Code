@@ -1,13 +1,32 @@
 """
 Hierarchical Chunking Module
 Implements Parent-Child chunking strategy with contextual enrichment.
+
+NOTE: tiktoken is optional - only needed for creating new chunks.
+The server only reads existing chunks, so tiktoken isn't required at runtime.
 """
 
-import tiktoken
 from typing import List, Dict, Optional, Tuple
-from .ingestion import Segment, VideoMetadata
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+
+# Optional imports - only needed for chunking, not for serving
+try:
+    import tiktoken
+    TIKTOKEN_AVAILABLE = True
+except ImportError:
+    tiktoken = None
+    TIKTOKEN_AVAILABLE = False
+
+try:
+    from .ingestion import Segment, VideoMetadata
+except ImportError:
+    Segment = None
+    VideoMetadata = None
+
+try:
+    from sklearn.metrics.pairwise import cosine_similarity
+except ImportError:
+    cosine_similarity = None
 
 
 class ParentChildChunk:
@@ -46,11 +65,13 @@ class HierarchicalChunker:
         self.child_overlap_tokens = child_overlap_tokens
         self.embedding_model = embedding_model
         
-        # Initialize tokenizer
-        try:
-            self.tokenizer = tiktoken.get_encoding("cl100k_base")
-        except:
-            self.tokenizer = None
+        # Initialize tokenizer (optional - only needed for creating chunks)
+        self.tokenizer = None
+        if TIKTOKEN_AVAILABLE:
+            try:
+                self.tokenizer = tiktoken.get_encoding("cl100k_base")
+            except Exception:
+                pass
     
     def count_tokens(self, text: str) -> int:
         """Count tokens in text."""
