@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 20 8% 12%;
+    --foreground: 40 20% 90%;
+
+    --card: 20 8% 15%;
+    --card-foreground: 40 20% 90%;
+
+    --popover: 20 8% 14%;
+    --popover-foreground: 40 20% 90%;
+
+    --primary: 16 60% 55%;
+    --primary-foreground: 20 8% 8%;
+
+    --secondary: 20 6% 20%;
+    --secondary-foreground: 40 15% 80%;
+
+    --muted: 20 6% 18%;
+    --muted-foreground: 30 10% 55%;
+
+    --accent: 16 60% 55%;
+    --accent-foreground: 20 8% 8%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 8% 22%;
+    --input: 20 8% 18%;
+    --ring: 16 60% 55%;
+
+    --radius: 1rem;
+
+    /* Highlight color - warm amber/gold */
+    --highlight: 45 95% 55%;
+    --highlight-foreground: 20 8% 8%;
+
+    /* Custom tokens */
+    --gradient-warm: linear-gradient(135deg, hsl(16 60% 55%), hsl(35 70% 50%));
+    --gradient-highlight: linear-gradient(135deg, hsl(45 95% 55%), hsl(35 90% 50%));
+    --gradient-dark: linear-gradient(180deg, hsl(20 8% 14%), hsl(20 8% 10%));
+
+    --shadow-glow: 0 0 40px hsl(16 60% 55% / 0.15);
+    --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.3);
+
+    /* Chat specific */
+    --chat-user: 20 8% 22%;
+    --chat-ai: transparent;
+    --chat-input: 20 8% 16%;
+  }
+
+  .dark {
+    --background: 20 8% 12%;
+    --foreground: 40 20% 90%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+  /* Ensure consistent font across all text */
+  p, span, div, button, input, textarea, a, li {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .chat-container {
+    @apply flex flex-col h-screen;
+    background: var(--gradient-dark);
+  }
+
+  .chat-input-wrapper {
+    @apply relative rounded-2xl border border-border/50 bg-[hsl(var(--chat-input))];
+    box-shadow: var(--shadow-card);
+  }
+
+  .message-user {
+    @apply ml-auto max-w-[80%] rounded-2xl px-4 py-3;
+    background: hsl(var(--chat-user));
+  }
+
+  .message-ai {
+    @apply mr-auto max-w-[85%];
+  }
+
+  .accent-icon {
+    @apply text-primary;
+    filter: drop-shadow(0 0 8px hsl(16 60% 55% / 0.5));
+  }
+
+  .gradient-text {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Citation sidebar - narrow, sticky, scrollable */
+  .citation-sidebar {
+    width: 260px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    position: sticky;
+    top: 96px;
+  }
+
+  /* Source pulse animation for highlighting */
+  .source-pulse {
+    animation: sourcePulse 1s ease-in-out;
+  }
+
+  @keyframes sourcePulse {
+    0% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.6); }
+    50% { box-shadow: 0 0 20px 4px hsl(var(--primary) / 0.4); }
+    100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0); }
+  }
+
+  /* Wikipedia-style citation reference */
+  .citation-ref {
+    @apply text-[10px] text-primary hover:text-primary/80 hover:underline transition-colors ml-0.5;
+    font-feature-settings: "sups" 1;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  /* Card styles */
+  .card {
+    @apply rounded-2xl border border-border/50 bg-card;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    @apply border-primary/30;
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-subtle {
+    animation: bounceSoft 0.6s ease-out;
+  }
+
+  .animate-stagger {
+    animation: staggerFade 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+    }
+    to { 
+      opacity: 1; 
+    }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes slideDown {
+    from { 
+      opacity: 0;
+      transform: translateY(-10px); 
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95); 
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1); 
+    }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes bounceSoft {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+    50% { transform: translateY(0); }
+    70% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes staggerFade {
+    from { 
+      opacity: 0;
+      transform: translateY(10px); 
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}

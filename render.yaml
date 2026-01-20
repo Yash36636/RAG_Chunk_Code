@@ -1,0 +1,21 @@
+# Render Blueprint - Backend Deployment
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: lennys-podcast-brain-api
+    runtime: python
+    pythonVersion: 3.11
+    region: oregon
+    plan: free
+
+    buildCommand: pip install --only-binary=:all: -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: groq
+
+    healthCheckPath: /health
