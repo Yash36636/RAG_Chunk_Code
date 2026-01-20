@@ -1,24 +1,23 @@
-# RAG System Dependencies
+# RAG System Dependencies (Production - Render compatible)
 
-# Core
+# Core API
 fastapi>=0.100.0
 uvicorn>=0.22.0
 pydantic>=2.0.0
 
-# Embeddings
+# Embeddings & Vector Search
 sentence-transformers>=2.2.0
 faiss-cpu>=1.7.4
 
-# LLM Providers
+# LLM Provider (Groq only - no Gemini needed)
 groq>=0.4.0
 requests>=2.28.0
-
-# Optional: Gemini
-google-generativeai>=0.3.0
 
 # Utilities
 python-dotenv>=1.0.0
 numpy>=1.24.0
 tqdm>=4.65.0
 
-tiktoken==0.5.2
+# NOTE: We intentionally exclude:
+# - tiktoken (requires Rust compilation, only needed for chunking)
+# - google-generativeai (we use Groq, not Gemini)
