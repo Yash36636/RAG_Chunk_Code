@@ -287,11 +287,3 @@ These are **intentional scope decisions**, not bugs.
 - [ ] Multi-language support
 
 ---
-
-## 📝 License
-
-MIT
-
----
-
-Built with ❤️ by a PM who believes in grounded, trustworthy AI systems.
