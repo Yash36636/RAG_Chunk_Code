@@ -9,8 +9,13 @@ services:
     region: oregon
     plan: free
 
-    # Use build script to set Cargo env vars during build
-    buildCommand: chmod +x render-build.sh && ./render-build.sh
+    buildCommand: |
+      pip install --upgrade pip
+      pip install fastapi uvicorn pydantic python-dotenv faiss-cpu numpy tqdm requests groq
+      pip install --no-deps sentence-transformers transformers huggingface-hub tokenizers safetensors
+      pip install torch --index-url https://download.pytorch.org/whl/cpu
+      pip install scipy scikit-learn pillow regex filelock packaging pyyaml
+
     startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
 
     envVars:

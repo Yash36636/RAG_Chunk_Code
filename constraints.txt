@@ -1,5 +1,0 @@
-# Constraints file - block packages that require Rust compilation
-# tiktoken requires Rust and fails on Render's read-only build environment
-
-# Block tiktoken entirely (use impossible version)
-tiktoken>=999.0.0
